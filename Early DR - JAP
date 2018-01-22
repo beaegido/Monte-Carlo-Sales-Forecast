@@ -1,4 +1,4 @@
-import matplotlib.pyplot as plt
+mport matplotlib.pyplot as plt
 import pandas as pd
 import numpy
 
@@ -66,7 +66,7 @@ def simulationjap(times):
         #Current number: 202 thousand. Rate of growth = 1.9%. initialmsize= 2.26x1.019^12 = 253 thousand
         #ppy = average price per patient per year= 6000 EUR
 
-        cumulativereturns.append(fiveyreturns(253000, 13, 5, 1.9, 0.1, 6000, 60))
+        cumulativereturns.append(fiveyreturns(253000, 5, 3, 1.9, 0.1, 6000, 60))
 
 
 
@@ -85,11 +85,12 @@ def simulationjap(times):
     #plt.show()
 
 
-    print "Cumulative revenues are estimated to on average be " + str(numpy.ma.mean(cumulativereturns)) + " More exactly, between " + str(cmReturns_df.returns[499]) +  " and " + str(cmReturns_df.returns[9499]) + \
+    print "Cumulative revenues are estimated to on average be " + str(numpy.ma.mean(cumulativereturns)) + " More exactly, between " + str(cmReturns_df.returns[49]) +  " and " + str(cmReturns_df.returns[949]) + \
            " will be made in total from 2030 to 2035 in Japan treating early stage DR with. " \
-           "Range given with 95% confidence interval under made assumptions."
+           "Range given with 90% confidence interval under made assumptions."
 
 
 
 
-simulationjap(10000)
+simulationjap(1000)
+
