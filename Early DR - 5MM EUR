@@ -12,7 +12,7 @@ from numpy import random
 
 def fiveyreturns(initialmsize, meanpen, sdpen, meansize, sdsize, meanppy, sdppy):
 
-    
+    global loopcounter
 
 
 
@@ -53,8 +53,8 @@ def fiveyreturns(initialmsize, meanpen, sdpen, meansize, sdsize, meanppy, sdppy)
 
 #2.1 Define 'simulation' function
 
-def simulation(times):
-    global loopcounter
+def simulationeur(times):
+
     global cumulativereturns
     cumulativereturns = []
 
@@ -66,7 +66,7 @@ def simulation(times):
         #Current number: 2.6 million. Rate of growth = 1.9%. initialmsize= 2.6x1.019^12 = 3.25 million
         #ppy = average price per patient per year= 1670 EUR
 
-        cumulativereturns.append(fiveyreturns(3250000, 13, 5, 1.9, 0.1, 1670, 20))
+        cumulativereturns.append(fiveyreturns(3250000, 5, 3, 1.9, 0.1, 1670, 20))
 
 
 
@@ -85,11 +85,12 @@ def simulation(times):
     #plt.show()
 
 
-    print "Cumulative revenues are estimated to on average be " + str(numpy.ma.mean(cumulativereturns)) + " More exactly, between " + str(cmReturns_df.returns[499]) +  " and " + str(cmReturns_df.returns[9499]) + \
+    print "Cumulative revenues are estimated to on average be " + str(numpy.ma.mean(cumulativereturns)) + " More exactly, between " + str(cmReturns_df.returns[49]) +  " and " + str(cmReturns_df.returns[949]) + \
            " will be made in total from 2030 to 2035 in Europe treating early stage DR with. " \
-           "Range given with 95% confidence interval under made assumptions."
+           "Range given with 90% confidence interval under made assumptions."
 
 
 
 
-simulation(10000)
+simulationeur(1000)
+
