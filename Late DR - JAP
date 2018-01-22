@@ -1,0 +1,92 @@
+from statistics import mean
+import matplotlib.pyplot as plt
+import pandas as pd
+import pylab
+import scipy.stats as stats
+
+
+
+
+#1.5 'revenues' function
+
+import numpy as numpy
+from numpy import random
+
+def fiveyreturns(initialmsize, meanshare, sdshare, meansize, sdsize):
+
+
+
+    totalreturns = 0
+
+    mshare = random.normal(meanshare,sdshare, 1)
+
+    msize = initialmsize
+
+
+    for i in range(2035):
+
+
+        i = 2030
+        while totalreturns >= 0 and i >= 2030 and i <= 2035:
+
+
+            mshare = random.normal(meanshare,sdshare, 1) + mshare
+
+            msize = (1 + (random.normal(meansize,sdsize,1))/100) * msize
+
+            returns = mshare * msize/100
+
+            totalreturns = totalreturns + returns
+
+            i = i + 1
+
+
+
+        return totalreturns
+
+#2 MONTECARLO SIMULATION
+
+#2.1 Define 'simulation' function
+
+def simulationus(times):
+
+    global cumulativereturns
+    cumulativereturns = []
+
+
+    for a in range(times):
+
+
+        #initialmsize = Late DR stages market size in 2030.
+        # For Jap: 606 million EURx 1.11^7
+        # (8% current CAGR and 5 years of predictions, from 2017 to 2021 with the introduction of biosimilars.
+        #Size in 2030 = 1.3 billion EUR. A 15% reduction in market size: 1.1 billion EUR. Then 9 more years until 2030: 1.1*1.11^9.
+        # Market in 2030: 2.8 billion EUR
+        cumulativereturns.append(fiveyreturns(2800000000, 2, 1.4, 11, 9.35))
+
+        #avoiding negative revenue values
+        for a in range(len(cumulativereturns)):
+            if cumulativereturns[a] < 0:
+                cumulativereturns.remove(cumulativereturns[a])
+                cumulativereturns.append(0)
+
+        cumulativereturns.sort()
+
+    cmReturns_df = pd.DataFrame(cumulativereturns, columns = ['returns'])
+
+
+
+    #fig, ax = plt.subplots(1,1, figsize=(15,10))
+    #cmReturns_df.plot(title='Distrubution', ax=ax)
+    #ax.set_ylabel('Values')
+    #plt.show()
+
+
+    print "Cumulative revenues are estimated to on average be " + str(numpy.ma.mean(cumulativereturns)) + " More exactly, between " + str(cmReturns_df.returns[50]) +  " and " + str(cmReturns_df.returns[950]) + \
+           " will be made in total from 2030 to 2035 in JAP by treating late stages DR. " \
+           "Range given with 90% confidence interval under made assumptions."
+
+
+
+
+simulationus(1000)
