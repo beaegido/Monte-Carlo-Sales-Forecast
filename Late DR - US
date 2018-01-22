@@ -82,11 +82,11 @@ def simulationus(times):
     #plt.show()
 
 
-    print "Cumulative revenues are estimated to on average be " + str(numpy.ma.mean(cumulativereturns)) + " More exactly, between " + str(cmReturns_df.returns[499]) +  " and " + str(cmReturns_df.returns[9499]) + \
+    print "Cumulative revenues are estimated to on average be " + str(numpy.ma.mean(cumulativereturns)) + " More exactly, between " + str(cmReturns_df.returns[50]) +  " and " + str(cmReturns_df.returns[950]) + \
            " will be made in total from 2030 to 2035 in the US by treating late stages DR. " \
            "Range given with 95% confidence interval under made assumptions."
 
 
 
 
-simulationus(10000)
+simulationus(1000)
