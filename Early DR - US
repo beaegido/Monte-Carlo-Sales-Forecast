@@ -1,0 +1,95 @@
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy
+
+
+
+
+
+#2030-2035 'revenues' function
+
+from numpy import random
+
+def fiveyreturns(initialmsize, meanpen, sdpen, meansize, sdsize, meanppy, sdppy):
+
+    global loopcounter
+
+
+
+    totalreturns = 0
+
+    msize = initialmsize
+    penetration = random.normal(meanpen,sdpen, 1)
+
+
+
+    for i in range(2035):
+
+
+        i = 2030
+        while totalreturns >= 0 and i >= 2030 and i <= 2035:
+
+
+
+            penetration = (1 + (random.normal(meanpen,sdpen,1))/100) * penetration
+
+            priceppy = random.normal(meanppy,sdppy, 1)
+
+
+            msize = (1 + (random.normal(meansize,sdsize,1))/100) * msize
+
+            returns = msize *priceppy * penetration/100
+
+            totalreturns = totalreturns + returns
+
+
+            i = i + 1
+
+
+
+        return totalreturns
+
+#2 MONTECARLO SIMULATION
+
+#2.1 Define 'simulation' function
+
+def simulationus(times):
+
+    global cumulativereturns
+    cumulativereturns = []
+
+    for a in range(times):
+
+
+        #US
+        #initialmsize = number of patients diagnosed with <= moderate PDR
+        #Current number: 2.26 million. Rate of growth = 1.9%. initialmsize= 2.26x1.019^12 = 2.83 million
+        #ppy = average price per patient per year= 2652 EUR
+
+        cumulativereturns.append(fiveyreturns(2830000, 13, 5, 1.9, 0.1, 2652, 30))
+
+
+
+        #avoiding negative revenue values
+        for a in range(len(cumulativereturns)):
+            if cumulativereturns[a] < 0:
+                cumulativereturns.remove(cumulativereturns[a])
+                cumulativereturns.append(0)
+
+    cumulativereturns.sort()
+    cmReturns_df = pd.DataFrame(cumulativereturns, columns = ['returns'])
+
+    #fig, ax = plt.subplots(1,1, figsize=(15,10))
+    #cmReturns_df.plot(title='Distrubution', ax=ax)
+    #ax.set_ylabel('Values')
+    #plt.show()
+
+
+    print "Cumulative revenues are estimated to on average be " + str(numpy.ma.mean(cumulativereturns)) + " More exactly, between " + str(cmReturns_df.returns[499]) +  " and " + str(cmReturns_df.returns[9499]) + \
+           " will be made in total from 2030 to 2035 in the US treating early stage DR with. " \
+           "Range given with 95% confidence interval under made assumptions."
+
+
+
+
+simulationus(10000)
